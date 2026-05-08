@@ -35,13 +35,13 @@
     .stat-box .label { color: #8b7eaa; font-size: 0.72rem; margin-top: 4px; }
 
     /* Metric rows */
-    .metric-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #1e1a2e; }
+    .metric-row { display: flex; align-items: center; gap: 8px; padding: 9px 0; border-bottom: 1px solid #1e1a2e; overflow: hidden; }
     .metric-row:last-child { border-bottom: none; }
-    .metric-label { color: #8b7eaa; font-size: 0.8rem; min-width: 130px; }
-    .metric-bar-wrap { flex: 1; background-color: #0d0a14; border-radius: 4px; height: 7px; overflow: hidden; }
+    .metric-label { color: #8b7eaa; font-size: 0.78rem; width: 110px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .metric-bar-wrap { flex: 1; min-width: 0; background-color: #0d0a14; border-radius: 4px; height: 7px; overflow: hidden; }
     .metric-bar { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
-    .metric-val { color: #f0eafa; font-size: 0.8rem; font-weight: 600; min-width: 64px; text-align: right; }
-    .metric-delta { font-size: 0.7rem; min-width: 40px; text-align: right; }
+    .metric-val { color: #f0eafa; font-size: 0.78rem; font-weight: 600; width: 60px; flex-shrink: 0; text-align: right; white-space: nowrap; }
+    .metric-delta { font-size: 0.68rem; width: 36px; flex-shrink: 0; text-align: right; white-space: nowrap; overflow: hidden; }
 
     /* Bar colours */
     .bar-recovery  { background: linear-gradient(to right, #e74c3c, #f39c12, #27ae60); }
