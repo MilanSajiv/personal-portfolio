@@ -78,7 +78,7 @@
     /* Tables */
     .data-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
     .data-table th { color: #8b7eaa; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; padding: 7px 10px; border-bottom: 1px solid #2d2040; text-align: left; }
-    .data-table td { padding: 9px 10px; border-bottom: 1px solid #1e1a2e; color: #8b7eaa; }
+    .data-table td { padding: 9px 10px; border-bottom: 1px solid #1e1a2e; color: #8b7eaa; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .data-table td:first-child { color: #f0eafa; font-weight: 600; }
     .data-table tr:last-child td { border-bottom: none; }
     .up   { color: #27ae60; font-weight: 700; }
@@ -545,7 +545,12 @@ function renderGymTable() {
     const badge = d.pct==null?'': d.pct>=5?`<span class="up">▲ ${d.pct.toFixed(1)}%</span>`: d.pct>=0?`<span class="flat">→ ${d.pct.toFixed(1)}%</span>`:`<span class="down">▼ ${d.pct.toFixed(1)}%</span>`;
     return `<tr><td>${labels[ex]||ex}</td><td>${d.load.toLocaleString()}</td><td>${badge}</td><td style="color:#3d3456;font-size:0.72rem;">${d.date}</td></tr>`;
   }).join('');
-  el.innerHTML = `<table class="data-table"><thead><tr><th>Exercise</th><th>Volume load</th><th>vs baseline</th><th>Last session</th></tr></thead><tbody>${rows}</tbody></table>`;
+  el.innerHTML = `<table class="data-table" style="table-layout:fixed;"><thead><tr>
+    <th style="width:36%;">Exercise</th>
+    <th style="width:24%;">Volume load</th>
+    <th style="width:18%;">vs baseline</th>
+    <th style="width:22%;">Last session</th>
+  </tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function renderBodyComp() {
