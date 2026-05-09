@@ -335,9 +335,9 @@
       <div class="col-lg-4">
 
         <!-- Data sources -->
-        <div class="card-dark mb-4">
+        <div class="card-dark mb-3" style="padding:14px 16px;">
           <h2 class="proposal-section" style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#a78bfa;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #2d2040;">3. Data Sources</h2>
-          <div style="font-size:0.78rem;color:#8b7eaa;margin-bottom:10px;">EPL 2015/16 to 2024/25 &nbsp;·&nbsp; ~3,800 matches &nbsp;·&nbsp; <span style="color:#27ae60;font-weight:600;">W 46%</span> <span style="color:#f39c12;font-weight:600;">D 26%</span> <span style="color:#e74c3c;font-weight:600;">L 28%</span></div>
+          <div style="font-size:0.76rem;color:#8b7eaa;margin-bottom:10px;">EPL 2015/16 to 2024/25 &nbsp;·&nbsp; ~3,800 matches &nbsp;·&nbsp; <span style="color:#27ae60;font-weight:600;">W 46%</span> <span style="color:#f39c12;font-weight:600;">D 26%</span> <span style="color:#e74c3c;font-weight:600;">L 28%</span></div>
           <table class="data-table" style="font-size:0.76rem;">
             <tbody>
               <tr><td style="padding:6px 8px;">football-data.co.uk</td><td style="padding:6px 8px;">Results, odds, stats (1993-present)</td></tr>
@@ -349,33 +349,33 @@
         </div>
 
         <!-- Evaluation metrics -->
-        <div class="card-dark mb-4">
-          <h2 style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#a78bfa;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2d2040;">6. Evaluation Metrics</h2>
-          <table class="data-table">
+        <div class="card-dark mb-3" style="padding:14px 16px;">
+          <h2 style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#a78bfa;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #2d2040;">6. Evaluation Metrics</h2>
+          <table class="data-table" style="font-size:0.76rem;">
             <thead><tr><th>Metric</th><th>Rationale</th></tr></thead>
             <tbody>
               <tr><td>Macro F1</td><td>Primary — weights all three classes equally</td></tr>
               <tr><td>Accuracy</td><td>Comparison with literature benchmarks</td></tr>
               <tr><td>Brier Score</td><td>Calibration of probability estimates</td></tr>
-              <tr><td>Per-class P/R</td><td>Specifically monitors draw class performance</td></tr>
-              <tr><td>Calibration curves</td><td>Ensures predicted probabilities are trustworthy</td></tr>
+              <tr><td>Per-class P/R</td><td>Monitors draw class performance</td></tr>
+              <tr><td>Calibration curves</td><td>Ensures probabilities are trustworthy</td></tr>
             </tbody>
           </table>
-          <div style="margin-top:14px;padding:10px;background:#0d0a14;border-radius:8px;font-size:0.78rem;color:#8b7eaa;">
-            <strong style="color:#f0eafa;">Target:</strong> Macro F1 &gt; 0.45 on held-out 2024/25 season — meaningfully above the draw class naive baseline of ~0.26
+          <div style="margin-top:10px;padding:8px 10px;background:#0d0a14;border-radius:8px;font-size:0.75rem;color:#8b7eaa;">
+            <strong style="color:#f0eafa;">Target:</strong> Macro F1 &gt; 0.45 on held-out 2024/25 season
           </div>
         </div>
 
         <!-- Timeline -->
-        <div class="card-dark">
-          <h2 style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#a78bfa;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #2d2040;">8. Timeline</h2>
+        <div class="card-dark" style="padding:14px 16px;">
+          <h2 style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#a78bfa;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #2d2040;">8. Timeline</h2>
           <div class="tl">
-            <div class="tl-item"><div class="tl-date">Oct 2026</div><div class="tl-text"><strong>Data collection & ETL pipeline complete</strong></div></div>
-            <div class="tl-item"><div class="tl-date">Nov 2026</div><div class="tl-text"><strong>Feature engineering complete</strong> — all 5 feature groups implemented</div></div>
-            <div class="tl-item"><div class="tl-date">Nov 2026</div><div class="tl-text"><strong>Baseline models trained</strong> — Logistic Regression, Random Forest evaluated</div></div>
-            <div class="tl-item"><div class="tl-date">Dec 2026</div><div class="tl-text"><strong>XGBoost/LightGBM optimised</strong> — Optuna hyperparameter search complete</div></div>
-            <div class="tl-item"><div class="tl-date">Dec 2026</div><div class="tl-text"><strong>Neural network baseline</strong> — MLP trained and compared</div></div>
-            <div class="tl-item"><div class="tl-date">Jan 2027</div><div class="tl-text"><strong>Final evaluation & GitHub write-up</strong> — full documentation published</div></div>
+            <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">Oct 2026</div><div class="tl-text"><strong>Data collection & ETL complete</strong></div></div>
+            <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">Nov 2026</div><div class="tl-text"><strong>Feature engineering complete</strong></div></div>
+            <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">Nov 2026</div><div class="tl-text"><strong>Baseline models trained & evaluated</strong></div></div>
+            <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">Dec 2026</div><div class="tl-text"><strong>XGBoost/LightGBM optimised</strong></div></div>
+            <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">Dec 2026</div><div class="tl-text"><strong>Neural network baseline complete</strong></div></div>
+            <div class="tl-item"><div class="tl-date">Jan 2027</div><div class="tl-text"><strong>Final evaluation & GitHub write-up</strong></div></div>
           </div>
         </div>
 
