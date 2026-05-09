@@ -5,8 +5,8 @@ const FITNESS_DATA = {
 
   // Fixed — update once
   profile: {
-    height_cm: 178,
-    neck_cm: 38
+    height_cm: 166,
+    neck_cm: 42
   },
 
   // Weekly body measurements — add every week (e.g. Sunday morning)
