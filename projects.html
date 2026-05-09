@@ -210,8 +210,8 @@
       <div class="col-lg-3 col-md-6">
         <div class="proj-card-wrap" onclick="showProposal(4)">
           <div class="proj-card">
-            <div class="proj-num">4</div>
-            <span class="status-badge s-planned">Planned</span>
+            <div class="proj-num" style="background:#2d1a4a;">4</div>
+            <span class="status-badge s-active">Proposal complete</span>
             <h3>Financial Compliance NLP</h3>
             <p class="technique">Transformer-based NLP, regulatory document classification</p>
             <div><span class="proj-tag">HuggingFace</span><span class="proj-tag">Transformers</span><span class="proj-tag">FinTech</span></div>
@@ -627,15 +627,161 @@
 
     <!-- Project 4 proposal -->
     <div id="proposal-4" style="display:none;">
-      <div class="section-label">Project 4 — Planned</div>
-      <div class="section-title">Financial Compliance NLP</div>
-      <p style="color:#8b7eaa;font-size:0.85rem;margin-bottom:36px;">Transformer-based NLP &nbsp;·&nbsp; Target: Jun 2027</p>
-      <div class="coming-proposal">
-        <div class="cp-icon">📄</div>
-        <h3>Full proposal in development</h3>
-        <p>A transformer-based NLP model for classifying and extracting information from FCA regulatory documents. Feeds directly into Amaea's compliance intelligence layer — giving the project both academic and real-world commercial motivation. Maps to Imperial's NLP optional module. Full proposal will be written during Year 2 Term 3 (Jan–May 2027).</p>
-        <div style="margin-top:20px;"><span class="proj-tag">HuggingFace</span><span class="proj-tag">Transformers</span><span class="proj-tag">NLP</span><span class="proj-tag">FCA / FinTech</span></div>
-        <div class="proj-date" style="margin-top:16px;">Proposal: mid 2027 &nbsp;·&nbsp; Build: Jun 2027</div>
+      <div class="section-label">Project 4 — Full Proposal</div>
+      <div class="section-title">Fine-tuning Transformers for FCA Regulatory Document Intelligence</div>
+      <p style="color:#8b7eaa;font-size:0.85rem;margin-bottom:36px;">Multi-label Classification and Obligation Extraction from UK Financial Regulation &nbsp;·&nbsp; Target: Jun 2027</p>
+
+      <div class="abstract-box">
+        This project fine-tunes pre-trained transformer models on a curated corpus of FCA (Financial Conduct Authority) regulatory documents to perform two NLP tasks: (1) multi-label classification of document sections by regulatory domain (Consumer Duty, Suitability, Vulnerable Clients, RMAR, Data Protection), and (2) regulatory obligation extraction — identifying sentences that impose specific compliance requirements on firms versus contextual or explanatory text. Four transformer models are benchmarked: BERT-base, RoBERTa-base, FinBERT (pre-trained on financial text), and LegalBERT (pre-trained on legal text), with a GPT-based zero-shot baseline for comparison. The project contributes a novel annotated FCA regulatory corpus — the first publicly available dataset of this kind — and produces a fine-tuned model that feeds directly into Amaea's compliance intelligence layer, replacing the current embedding-only retrieval system with a classification-aware pipeline. The central hypothesis is that domain-specific pre-training (FinBERT or LegalBERT) will outperform general-purpose BERT on both tasks, and that obligation extraction can be solved as a sentence-level sequence classification problem with high precision on the OBLIGATION class.
+      </div>
+
+      <div class="row g-5">
+        <div class="col-lg-8">
+
+          <div class="proposal-section">
+            <h2>1. Background & Motivation</h2>
+            <div class="proposal-body">
+              <p>The transformer architecture (Vaswani et al., 2017) and its derivatives — BERT (Devlin et al., 2019), RoBERTa (Liu et al., 2019) — have become the dominant paradigm for NLP tasks. The key insight of BERT is <strong>masked language model pre-training</strong>: by training on vast text corpora to predict masked tokens, the model learns deep contextual representations that transfer effectively to downstream tasks with minimal fine-tuning data.</p>
+              <p>In regulated industries, NLP has significant potential to automate document analysis that currently requires expensive human expertise. The FCA publishes thousands of pages of regulatory guidance, policy statements, thematic reviews, and enforcement notices each year. IFA compliance teams must stay current with all of it. A model that can automatically classify regulatory content and extract obligations from new publications would provide material commercial value — replacing hours of manual reading with automated alerts.</p>
+              <p>This project addresses a specific gap in the existing literature: while legal NLP has been applied to EU law (Chalkidis et al., 2020 — LexGLUE), US case law, and GDPR documentation, there is no published work on FCA regulatory text. The annotated corpus produced by this project is itself a contribution to the field.</p>
+              <p><strong>Connection to Amaea:</strong> The trained model feeds directly into the Amaea compliance intelligence layer, replacing the current embedding-search approach with a classification-aware pipeline. When new FCA guidance is published, the model automatically tags it by regulatory domain and flags obligation sentences for immediate compliance review — a core product feature.</p>
+            </div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>2. Research Questions</h2>
+            <div class="rq"><span class="rq-num">RQ1</span><span class="rq-text">Does domain-specific pre-training (FinBERT, LegalBERT) outperform general-purpose BERT and RoBERTa on multi-label FCA document classification?</span></div>
+            <div class="rq"><span class="rq-num">RQ2</span><span class="rq-text">Can regulatory obligation extraction be solved as sentence-level sequence classification with precision &gt; 0.85 on the OBLIGATION class?</span></div>
+            <div class="rq"><span class="rq-num">RQ3</span><span class="rq-text">How does GPT-based zero-shot classification compare to fine-tuned BERT variants on both tasks — and at what annotation cost does fine-tuning break even?</span></div>
+            <div class="rq"><span class="rq-num">RQ4</span><span class="rq-text">Does a model trained on FCA Consumer Duty documents generalise to obligations extracted from FCA enforcement notices (out-of-distribution test)?</span></div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>3. Dataset & Annotation</h2>
+            <div class="proposal-body">
+              <p><strong>Source corpus:</strong> The FCA regulatory document collection assembled for the Amaea compliance intelligence layer — including PS22/9 (Consumer Duty final rules), FG22/5 (Consumer Duty guidance), FG23/2 (board report guidance), FG21/1 (vulnerable customers), and additional FCA publications ingested via the sitemap scraper. Total corpus: 100+ documents, ~500k tokens.</p>
+              <p><strong>Task 1 annotation — multi-label classification:</strong> Each document chunk (paragraph level, ~150 tokens) is labelled with one or more of seven regulatory domains:</p>
+            </div>
+            <div style="margin:12px 0;">
+              <span class="feature-tag">Consumer Duty</span>
+              <span class="feature-tag">Suitability & Annual Reviews</span>
+              <span class="feature-tag">Vulnerable Clients</span>
+              <span class="feature-tag">RMAR & Reporting</span>
+              <span class="feature-tag">Data Protection / UK GDPR</span>
+              <span class="feature-tag">Enforcement & Sanctions</span>
+              <span class="feature-tag">General Conduct</span>
+            </div>
+            <div class="proposal-body">
+              <p><strong>Task 2 annotation — obligation extraction:</strong> Each sentence is labelled as one of four classes: <strong style="color:#e74c3c;">OBLIGATION</strong> (firms must / firms are required to), <strong style="color:#f39c12;">GUIDANCE</strong> (firms should / we expect), <strong style="color:#8b7eaa;">CONTEXT</strong>, or <strong style="color:#3d3456;">EXAMPLE</strong>. Annotation target: 2,000 sentences across 20 documents (approx. 8 hours manual annotation). Inter-annotator agreement measured on 200-sentence overlap using Cohen's Kappa.</p>
+            </div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>4. Models & Experimental Design</h2>
+            <table class="model-table">
+              <thead><tr><th>Model</th><th>Pre-training</th><th>Rationale</th></tr></thead>
+              <tbody>
+                <tr><td>BERT-base</td><td>General English (Wikipedia + Books)</td><td>Standard baseline — establishes floor for domain-specific models</td></tr>
+                <tr><td>RoBERTa-base</td><td>General English (larger corpus, optimised training)</td><td>Stronger general baseline — often outperforms BERT on fine-tuning tasks</td></tr>
+                <tr><td>FinBERT</td><td>Financial news, earnings calls, SEC filings</td><td>Financial domain — nearest to FCA regulatory language</td></tr>
+                <tr><td>LegalBERT</td><td>EU legislation, contracts, court decisions</td><td>Legal domain — captures regulatory obligation syntax</td></tr>
+                <tr><td>GPT zero-shot</td><td>N/A — prompt-based</td><td>Baseline without any fine-tuning — measures annotation cost break-even</td></tr>
+              </tbody>
+            </table>
+            <div class="proposal-body" style="margin-top:12px;">
+              <p>Fine-tuning approach: each model fine-tuned independently on the annotated FCA corpus with 80/10/10 train/validation/test split, stratified by regulatory domain. Hyperparameter search via Optuna (learning rate, batch size, warmup steps). All experiments run 3× with different random seeds; results reported as mean ± standard deviation.</p>
+            </div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>5. Evaluation Metrics</h2>
+            <div class="proposal-body">
+              <p><strong>Task 1 (multi-label classification):</strong> Micro-F1 (primary — accounts for label imbalance), Macro-F1 (secondary — treats all domains equally), Hamming Loss (proportion of incorrectly predicted labels), per-label precision and recall.</p>
+              <p><strong>Task 2 (obligation extraction):</strong> Precision, recall, and F1 on the OBLIGATION class specifically (high precision is the priority — a false obligation is worse than a missed one in a compliance context). Overall accuracy and weighted F1 reported for completeness.</p>
+            </div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>6. Integration with Amaea</h2>
+            <div class="proposal-body">
+              <p>The production pipeline built from this project: new FCA document published → ingested into corpus → chunked → classified by domain (Task 1 model) → obligations extracted (Task 2 model) → high-confidence obligations pushed to the Amaea compliance alert system with source citation.</p>
+              <p>This replaces the current embedding-only retrieval with a two-stage system: classification first (to filter to relevant domain), retrieval second (to find the specific passage). Expected improvement: fewer irrelevant results in compliance queries, higher precision on obligation-specific questions.</p>
+              <p>The annotated FCA corpus is also a proprietary data asset for Amaea — the first structured, labelled dataset of FCA regulatory obligations, which competitors cannot replicate without the same annotation effort.</p>
+            </div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>7. Limitations</h2>
+            <div class="limit-item"><div class="limit-dot"></div><div class="limit-text"><strong>Small annotated dataset</strong> — 2,000 annotated sentences is modest for fine-tuning; results may not generalise beyond FCA Consumer Duty documents without additional annotation</div></div>
+            <div class="limit-item"><div class="limit-dot"></div><div class="limit-text"><strong>Single annotator bias</strong> — annotation by a single annotator introduces subjectivity; inter-annotator agreement measured on a 200-sentence subset but full dataset is not double-annotated due to time constraints</div></div>
+            <div class="limit-item"><div class="limit-dot"></div><div class="limit-text"><strong>Class imbalance</strong> — OBLIGATION sentences are a minority class; requires careful handling via class weights or focal loss to avoid the model defaulting to CONTEXT predictions</div></div>
+            <div class="limit-item"><div class="limit-dot"></div><div class="limit-text"><strong>Context window limitations</strong> — BERT-based models process 512 tokens maximum; long FCA documents must be chunked, potentially splitting obligations across chunks and losing cross-sentence context</div></div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>9. Connection to Imperial NLP Module</h2>
+            <div class="proposal-body">
+              <p>This project directly engages with core topics from Imperial's NLP optional module: pre-trained language models, transfer learning and fine-tuning, sequence classification, named entity recognition, and evaluation of NLP systems. The domain-specific pre-training comparison (FinBERT vs LegalBERT vs BERT) addresses a live research question in NLP — when does domain adaptation matter, and how much? — making this more than a standard fine-tuning exercise.</p>
+            </div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>10. References</h2>
+            <div class="ref-item">Vaswani, A., et al. (2017). Attention is All You Need. <em>NeurIPS</em>, 30.</div>
+            <div class="ref-item">Devlin, J., et al. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. <em>NAACL</em>, 4171-4186.</div>
+            <div class="ref-item">Liu, Y., et al. (2019). RoBERTa: A Robustly Optimized BERT Pretraining Approach. <em>arXiv:1907.11692</em>.</div>
+            <div class="ref-item">Yang, Y., et al. (2020). FinBERT: A Pretrained Language Model for Financial Communications. <em>arXiv:2006.08097</em>.</div>
+            <div class="ref-item">Chalkidis, I., et al. (2020). LEGAL-BERT: The Muppets straight out of Law School. <em>EMNLP Findings</em>, 2898-2904.</div>
+            <div class="ref-item">Chalkidis, I., et al. (2021). LexGLUE: A Benchmark Dataset for Legal Language Understanding in English. <em>ACL</em>, 4310-4330.</div>
+            <div class="ref-item">Brown, T., et al. (2020). Language Models are Few-Shot Learners (GPT-3). <em>NeurIPS</em>, 33.</div>
+          </div>
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4" style="align-self:flex-start;">
+          <div class="card-dark mb-3" style="padding:14px 16px;">
+            <h2 style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#a78bfa;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #2d2040;">3. Dataset</h2>
+            <table class="data-table">
+              <thead><tr><th>Property</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Source</td><td>FCA publications corpus (Amaea)</td></tr>
+                <tr><td>Documents</td><td>100+ FCA publications</td></tr>
+                <tr><td>Total tokens</td><td>~500k</td></tr>
+                <tr><td>Annotated sentences</td><td>2,000 (Task 2)</td></tr>
+                <tr><td>Task 1 labels</td><td>7 regulatory domains</td></tr>
+                <tr><td>Task 2 labels</td><td>4 sentence classes</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card-dark mb-3" style="padding:14px 16px;">
+            <h2 style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#a78bfa;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #2d2040;">5. Evaluation</h2>
+            <table class="data-table">
+              <thead><tr><th>Task</th><th>Primary metric</th></tr></thead>
+              <tbody>
+                <tr><td>Task 1 classification</td><td>Micro-F1</td></tr>
+                <tr><td>Task 2 obligations</td><td>Precision on OBLIGATION class</td></tr>
+                <tr><td>Generalisation</td><td>F1 on enforcement notices (OOD)</td></tr>
+                <tr><td>Zero-shot comparison</td><td>GPT vs fine-tuned break-even</td></tr>
+              </tbody>
+            </table>
+            <div style="margin-top:10px;padding:8px 10px;background:#0d0a14;border-radius:8px;font-size:0.75rem;color:#8b7eaa;">
+              <strong style="color:#f0eafa;">Target:</strong> OBLIGATION precision &gt; 0.85 · Micro-F1 &gt; 0.80 on Task 1
+            </div>
+          </div>
+
+          <div class="card-dark" style="padding:14px 16px;">
+            <h2 style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#a78bfa;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #2d2040;">8. Timeline</h2>
+            <div class="tl">
+              <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">Feb 2027</div><div class="tl-text"><strong>Corpus finalised & annotation begins</strong></div></div>
+              <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">Mar 2027</div><div class="tl-text"><strong>Annotation complete — 2,000 sentences labelled</strong></div></div>
+              <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">Apr 2027</div><div class="tl-text"><strong>All 4 models fine-tuned on both tasks</strong></div></div>
+              <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">May 2027</div><div class="tl-text"><strong>GPT zero-shot baseline & OOD evaluation</strong></div></div>
+              <div class="tl-item"><div class="tl-date">Jun 2027</div><div class="tl-text"><strong>Write-up, GitHub docs & Amaea integration</strong></div></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
