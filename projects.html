@@ -197,8 +197,8 @@
       <div class="col-lg-3 col-md-6">
         <div class="proj-card-wrap" onclick="showProposal(3)">
           <div class="proj-card">
-            <div class="proj-num">3</div>
-            <span class="status-badge s-planned">Planned</span>
+            <div class="proj-num" style="background:#2d1a4a;">3</div>
+            <span class="status-badge s-active">Proposal complete</span>
             <h3>RL Game Agent (DQN)</h3>
             <p class="technique">Deep reinforcement learning, Q-learning, PyTorch</p>
             <div><span class="proj-tag">PyTorch</span><span class="proj-tag">DQN</span><span class="proj-tag">OpenAI Gym</span></div>
@@ -463,15 +463,165 @@
 
     <!-- Project 3 proposal -->
     <div id="proposal-3" style="display:none;">
-      <div class="section-label">Project 3 — Planned</div>
-      <div class="section-title">RL Game Agent (DQN)</div>
-      <p style="color:#8b7eaa;font-size:0.85rem;margin-bottom:36px;">Deep Reinforcement Learning &nbsp;·&nbsp; Target: May 2027</p>
-      <div class="coming-proposal">
-        <div class="cp-icon">🤖</div>
-        <h3>Full proposal in development</h3>
-        <p>A Deep Q-Network reinforcement learning agent trained to play a game environment — connecting directly to the techniques behind DeepMind's AlphaGo and AlphaZero. This is the most technically ambitious project in the portfolio and maps to Imperial's Reinforcement Learning optional module. Full proposal will be written during Year 2 Term 2 (Sep–Jan 2027) alongside the Machine Learning module.</p>
-        <div style="margin-top:20px;"><span class="proj-tag">PyTorch</span><span class="proj-tag">DQN</span><span class="proj-tag">OpenAI Gym</span><span class="proj-tag">Reinforcement Learning</span></div>
-        <div class="proj-date" style="margin-top:16px;">Proposal: early 2027 &nbsp;·&nbsp; Build: May 2027</div>
+      <div class="section-label">Project 3 — Full Proposal</div>
+      <div class="section-title">Mastering Atari with Deep Q-Networks</div>
+      <p style="color:#8b7eaa;font-size:0.85rem;margin-bottom:36px;">Replicating and Extending Human-Level Reinforcement Learning &nbsp;·&nbsp; Target: May 2027</p>
+
+      <div class="abstract-box">
+        This project implements and extends a Deep Q-Network (DQN) agent to play Atari 2600 games using raw pixel observations, replicating the landmark result of Mnih et al. (2015) and extending it with three algorithmic improvements: Double DQN (van Hasselt et al., 2016), Dueling Network Architecture (Wang et al., 2016), and Prioritized Experience Replay (Schaul et al., 2016). The primary environment is Breakout-v4 (OpenAI Gymnasium), with secondary evaluation on a second Atari game to test cross-environment generalisation. The project is motivated by its direct intellectual lineage to DeepMind's AlphaGo and AlphaZero — the same core ideas of learning value functions from raw observations, refined over successive generations. The central hypothesis is that each algorithmic extension produces measurable improvement in sample efficiency and final game score over the vanilla DQN baseline, and that their combination (Rainbow-lite) outperforms any single extension alone.
+      </div>
+
+      <div class="row g-5">
+        <div class="col-lg-8">
+
+          <div class="proposal-section">
+            <h2>1. Background & Motivation</h2>
+            <div class="proposal-body">
+              <p>Reinforcement learning (RL) is the branch of machine learning concerned with how an agent learns to act in an environment to maximise cumulative reward. Unlike supervised learning — where labels are provided — an RL agent must discover through trial and error which actions lead to good outcomes. The field is foundational to some of the most significant AI achievements of the past decade.</p>
+              <p>The breakthrough moment came in 2013 when DeepMind published <em>Playing Atari with Deep Reinforcement Learning</em> (Mnih et al., 2013), demonstrating that a single neural network could learn to play 49 Atari games directly from raw pixel inputs — without any game-specific feature engineering. The agent surpassed human-level performance on 29 of them. The formalized Nature paper (Mnih et al., 2015) introduced the canonical DQN architecture combining a convolutional neural network with two key stabilisation techniques: <strong>experience replay</strong> and <strong>target networks</strong>.</p>
+              <p>The intellectual lineage from DQN to AlphaGo (Silver et al., 2016) is direct. AlphaGo uses policy and value networks learned through a combination of supervised learning from human games and reinforcement learning through self-play — the same principle of learning value estimates from experience, scaled to a much harder problem. Implementing DQN is therefore not just a portfolio exercise: it is engaging with the foundational idea that produced the most important AI breakthrough of the 2010s.</p>
+              <p>This project extends vanilla DQN with three improvements that together form the basis of the Rainbow agent (Hessel et al., 2018), one of the most sample-efficient general-purpose RL algorithms:</p>
+              <ul style="color:#8b7eaa;padding-left:20px;margin-top:8px;">
+                <li style="margin-bottom:6px;"><strong style="color:#f0eafa;">Double DQN</strong> — decouples action selection from action evaluation to reduce overestimation bias in Q-values</li>
+                <li style="margin-bottom:6px;"><strong style="color:#f0eafa;">Dueling Networks</strong> — separates the value function V(s) and advantage function A(s,a) to learn which states are valuable independently of actions</li>
+                <li><strong style="color:#f0eafa;">Prioritized Experience Replay</strong> — samples transitions with high temporal-difference error more frequently, improving sample efficiency</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>2. Research Questions</h2>
+            <div class="rq"><span class="rq-num">RQ1</span><span class="rq-text">Can a vanilla DQN implementation trained from scratch match the published benchmark scores of Mnih et al. (2015) on Breakout-v4?</span></div>
+            <div class="rq"><span class="rq-num">RQ2</span><span class="rq-text">Does each algorithmic extension (Double DQN, Dueling Networks, Prioritized Replay) individually improve sample efficiency and final score over the vanilla baseline?</span></div>
+            <div class="rq"><span class="rq-num">RQ3</span><span class="rq-text">Does combining all three extensions (Rainbow-lite) outperform any single extension alone?</span></div>
+            <div class="rq"><span class="rq-num">RQ4</span><span class="rq-text">Does the trained agent generalise to a second Atari environment without retraining the architecture?</span></div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>3. Environment & Problem Specification</h2>
+            <div class="proposal-body">
+              <p><strong>Primary environment:</strong> Breakout-v4 (OpenAI Gymnasium / ALE). The agent observes raw pixel frames (84×84 grayscale after preprocessing), stacked in groups of 4 consecutive frames to capture motion. Actions: 4 discrete (NOOP, FIRE, RIGHT, LEFT). Reward: +1 per brick destroyed. Episode terminates on loss of all lives.</p>
+              <p><strong>Secondary environment:</strong> Pong-v4 — two-player paddle game, used to evaluate cross-environment robustness of the trained architecture without modification.</p>
+              <p><strong>Preprocessing pipeline:</strong> Grayscale conversion → resize to 84×84 → frame stacking (last 4 frames) → reward clipping to [-1, 1] → no-op at episode start (random 1–30 steps) — matching standard Atari preprocessing from the original paper.</p>
+            </div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>4. Architecture & Implementation</h2>
+            <div class="proposal-body">
+              <p><strong>Vanilla DQN network:</strong> Three convolutional layers (32×8×8, 64×4×4, 64×3×3) followed by two fully connected layers (512 units, then output). ReLU activations throughout. Trained with Adam optimiser, learning rate 1e-4.</p>
+              <p><strong>Key DQN mechanisms:</strong></p>
+            </div>
+            <div class="feature-group" style="margin-top:8px;">
+              <span class="feature-tag">Experience Replay Buffer (1M transitions)</span>
+              <span class="feature-tag">Target Network (updated every 10k steps)</span>
+              <span class="feature-tag">ε-greedy exploration (ε: 1.0 → 0.1 over 1M steps)</span>
+              <span class="feature-tag">Batch size: 32</span>
+              <span class="feature-tag">Discount factor γ = 0.99</span>
+            </div>
+            <div class="proposal-body" style="margin-top:12px;">
+              <p><strong>Extensions architecture:</strong> Double DQN modifies the Bellman target computation only. Dueling Networks add a branching layer splitting into V(s) and A(s,a) streams before recombining. Prioritized Replay replaces the uniform sampling strategy in the replay buffer with TD-error-weighted sampling.</p>
+            </div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>5. Experimental Design</h2>
+            <div class="proposal-body"><p>Five agents trained independently, each from scratch with identical seeds for reproducibility:</p></div>
+            <table class="model-table" style="margin-top:8px;">
+              <thead><tr><th>Agent</th><th>Extensions</th><th>Purpose</th></tr></thead>
+              <tbody>
+                <tr><td>Vanilla DQN</td><td>None</td><td>Baseline — replicate Mnih et al. (2015)</td></tr>
+                <tr><td>Double DQN</td><td>Double Q-targets</td><td>Test overestimation reduction</td></tr>
+                <tr><td>Dueling DQN</td><td>Dueling architecture</td><td>Test state-value decomposition</td></tr>
+                <tr><td>PER DQN</td><td>Prioritized replay</td><td>Test sample efficiency improvement</td></tr>
+                <tr><td>Rainbow-lite</td><td>All three combined</td><td>Test combined effect</td></tr>
+              </tbody>
+            </table>
+            <div class="proposal-body" style="margin-top:12px;"><p>Each agent trained for 10M environment steps. Evaluation: mean episode reward over 30 evaluation episodes every 250k training steps, with no-op starts and ε=0.05 during evaluation. Training curves plotted for all agents to visualise sample efficiency.</p></div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>6. Evaluation Metrics</h2>
+            <div class="proposal-body">
+              <p><strong>Primary:</strong> Mean episode score at 10M steps (compared against published DQN baseline of ~400 for Breakout).</p>
+              <p><strong>Secondary:</strong> Sample efficiency — steps to reach 50% of final performance. Learning stability — variance of evaluation scores across training. Cross-environment transfer — Pong score without retraining.</p>
+            </div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>7. Connection to DeepMind & AlphaGo</h2>
+            <div class="proposal-body">
+              <p>AlphaGo's policy and value networks were initialised via supervised learning from human games, then refined through RL self-play using policy gradient methods. The core idea — approximating a value function with a neural network, trained on experience — is exactly what DQN does. AlphaZero (Silver et al., 2017) removed even the human data, relying entirely on self-play RL. The progression from DQN (pixels → Q-values) to AlphaGo (board state → policy + value) to AlphaZero (no human priors at all) is the central arc of deep RL research in the 2010s. This project engages with the origin of that arc.</p>
+            </div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>8. Limitations</h2>
+            <div class="limit-item"><div class="limit-dot"></div><div class="limit-text"><strong>Compute constraints</strong> — full DQN training on Atari requires significant GPU time. Training will be limited to 10M steps (vs 50M in original paper) using Google Colab Pro or university compute if available</div></div>
+            <div class="limit-item"><div class="limit-dot"></div><div class="limit-text"><strong>Single-environment depth</strong> — testing on only two Atari games limits generalisability claims. Full Rainbow was evaluated on 57 games</div></div>
+            <div class="limit-item"><div class="limit-dot"></div><div class="limit-text"><strong>Hyperparameter sensitivity</strong> — RL algorithms are notoriously sensitive to hyperparameters; results may differ from published benchmarks due to subtle implementation differences</div></div>
+            <div class="limit-item"><div class="limit-dot"></div><div class="limit-text"><strong>No distributional RL</strong> — the Rainbow-lite omits distributional Q-learning (C51), one of Rainbow's most impactful components, due to implementation complexity</div></div>
+          </div>
+
+          <div class="proposal-section">
+            <h2>10. References</h2>
+            <div class="ref-item">Mnih, V., et al. (2013). Playing Atari with Deep Reinforcement Learning. <em>arXiv:1312.5602</em>.</div>
+            <div class="ref-item">Mnih, V., et al. (2015). Human-level control through deep reinforcement learning. <em>Nature</em>, 518, 529-533.</div>
+            <div class="ref-item">Van Hasselt, H., Guez, A., & Silver, D. (2016). Deep Reinforcement Learning with Double Q-learning. <em>AAAI</em>, 2094-2100.</div>
+            <div class="ref-item">Wang, Z., et al. (2016). Dueling Network Architectures for Deep Reinforcement Learning. <em>ICML</em>, 1995-2003.</div>
+            <div class="ref-item">Schaul, T., et al. (2016). Prioritized Experience Replay. <em>ICLR</em>.</div>
+            <div class="ref-item">Hessel, M., et al. (2018). Rainbow: Combining Improvements in Deep Reinforcement Learning. <em>AAAI</em>, 3215-3222.</div>
+            <div class="ref-item">Silver, D., et al. (2016). Mastering the game of Go with deep neural networks and tree search. <em>Nature</em>, 529, 484-489.</div>
+            <div class="ref-item">Sutton, R. S., & Barto, A. G. (2018). <em>Reinforcement Learning: An Introduction</em> (2nd ed.). MIT Press.</div>
+          </div>
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4" style="align-self:flex-start;">
+          <div class="card-dark mb-3" style="padding:14px 16px;">
+            <h2 style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#a78bfa;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #2d2040;">3. Environment</h2>
+            <table class="data-table">
+              <thead><tr><th>Property</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Primary</td><td>Breakout-v4 (ALE)</td></tr>
+                <tr><td>Secondary</td><td>Pong-v4</td></tr>
+                <tr><td>Observation</td><td>84×84 grayscale, 4-frame stack</td></tr>
+                <tr><td>Action space</td><td>4 discrete actions</td></tr>
+                <tr><td>Training steps</td><td>10M per agent</td></tr>
+              </tbody>
+            </table>
+            <div style="margin-top:12px;padding-top:10px;border-top:1px solid #1e1a2e;">
+              <div style="color:#8b7eaa;font-size:0.78rem;margin-bottom:6px;">DQN benchmark target</div>
+              <div style="color:#f0eafa;font-size:0.82rem;font-weight:600;">~400 mean score on Breakout</div>
+              <div style="color:#3d3456;font-size:0.73rem;margin-top:2px;">Mnih et al. (2015) at 50M steps</div>
+            </div>
+          </div>
+
+          <div class="card-dark mb-3" style="padding:14px 16px;">
+            <h2 style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#a78bfa;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #2d2040;">6. Evaluation</h2>
+            <table class="data-table">
+              <thead><tr><th>Metric</th><th>Detail</th></tr></thead>
+              <tbody>
+                <tr><td>Mean episode score</td><td>Primary — vs published baseline</td></tr>
+                <tr><td>Sample efficiency</td><td>Steps to 50% final performance</td></tr>
+                <tr><td>Learning stability</td><td>Score variance across training</td></tr>
+                <tr><td>Transfer</td><td>Pong score without retraining</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card-dark" style="padding:14px 16px;">
+            <h2 style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#a78bfa;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #2d2040;">9. Timeline</h2>
+            <div class="tl">
+              <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">Feb 2027</div><div class="tl-text"><strong>Vanilla DQN implemented & training</strong></div></div>
+              <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">Mar 2027</div><div class="tl-text"><strong>Double DQN & Dueling Networks complete</strong></div></div>
+              <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">Apr 2027</div><div class="tl-text"><strong>Prioritized Replay implemented</strong></div></div>
+              <div class="tl-item" style="margin-bottom:14px;"><div class="tl-date">Apr 2027</div><div class="tl-text"><strong>Rainbow-lite trained & benchmarked</strong></div></div>
+              <div class="tl-item"><div class="tl-date">May 2027</div><div class="tl-text"><strong>Evaluation, write-up & GitHub docs</strong></div></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
