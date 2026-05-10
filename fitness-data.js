@@ -26,6 +26,31 @@ const FITNESS_DATA = {
 
   // Daily Whoop + activity stats
   whoop: [
+    {
+      date: "2026-05-09",
+      // Recovery
+      recovery: 52,
+      hrv: 60,
+      resting_hr: 78,
+      respiratory_rate: 18.3,
+      skin_temp: 0.3,
+      spo2: 94,
+      whoop_age: 28.8,
+      vo2_max: 47,
+      // Sleep
+      sleep_score: 86,
+      sleep_hours: 7.45,
+      sleep_efficiency: 97,
+      light_sleep_hrs: 3.62,
+      rem_sleep_hrs: 2.17,
+      deep_sleep_hrs: 1.67,
+      time_in_bed_hrs: 7.65,
+      // Activity
+      strain: 18.5,
+      calories_burned: 3972,
+      steps: 14503,
+      active_minutes: 0
+    },
     // {
     //   date: "2026-05-09",
     //   // Recovery
